@@ -2,7 +2,7 @@
 
 x402 content paywalls for creators and AI agents.
 
-**Status:** Planned first flagship build.
+**Status:** Frontend/API foundation in progress.
 
 PayGate lets creators publish premium reports or articles behind x402. Human users and AI agents can preview content, pay in USDC on Base, unlock the full piece, and receive a verifiable access receipt.
 
@@ -24,7 +24,25 @@ Base MCP gives AI assistants access to Base Account actions such as balances, se
 5. Ship analytics dashboard, demo content, docs, Sepolia test, and Base mainnet launch.
 
 ## Repository Status
-This repository is public from day one. It starts with product, architecture, roadmap, and demo documentation. Implementation commits should stay small and use conventional commit prefixes.
+This repository is public from day one. It now includes the first usable Next.js foundation: dashboard UI, reader paywall flow, x402-shaped content endpoints, and a PayGate MCP tool endpoint.
+
+## Local Development
+```bash
+npm install
+npm run dev
+```
+
+Open `http://127.0.0.1:3000`.
+
+## Current Demo Endpoints
+- `GET /api/paygate/content`
+- `GET /api/paygate/content/:slug/preview`
+- `GET /api/paygate/content/:slug/full`
+- `GET /api/paygate/creator/:address/stats`
+- `GET /api/mcp/paygate`
+- `POST /api/mcp/paygate`
+
+The paid full-content endpoint returns a 402 response until a demo payment header is sent. Real x402 facilitator verification is the next payment milestone.
 
 ## License
 MIT
