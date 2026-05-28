@@ -18,9 +18,34 @@ async function main() {
   assert(content.body.data.length >= 4, "content list should include seeded reports");
 
   const slug = content.body.data[0].slug;
+  const created = await readJson("/api/paygate/content", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      title: `Smoke Draft ${Date.now()}`,
+      category: "QA",
+      priceUsdc: 0.01,
+      preview: "Smoke draft preview.",
+      fullContent: "Smoke draft premium body.",
+    }),
+  });
+  assert(created.response.status === 201, "draft creation should return 201");
+
+  const published = await readJson(`/api/paygate/content/${created.body.data.id}`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ status: "Published" }),
+  });
+  assert(published.response.ok, "publish should return 200");
+  assert(published.body.data.status === "Published", "publish should update report status");
+
   const locked = await readJson(`/api/paygate/content/${slug}/full`);
   assert(locked.response.status === 402, "full content should require payment");
-  assert(locked.body.accepts[0].network === "base-sepolia", "payment challenge should target Base Sepolia");
+  assert(locked.body.accepts[0].network === "eip155:84532", "payment challenge should target Base Sepolia");
 
   const unlocked = await readJson(`/api/paygate/content/${slug}/full`, {
     headers: {
@@ -29,6 +54,7 @@ async function main() {
   });
   assert(unlocked.response.ok, "demo payment should unlock content");
   assert(unlocked.body.receipt.asset === "USDC", "unlock receipt should be denominated in USDC");
+  assert(unlocked.body.receipt.paymentMode === "demo", "demo unlock should record payment mode");
 
   const mcp = await readJson("/api/mcp/paygate", {
     method: "POST",
