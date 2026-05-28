@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findContentBySlug, toPublicContent } from "@/lib/paygate-data";
+import { findContentBySlug } from "@/lib/paygate-store";
 
 type RouteContext = {
   params: Promise<{
@@ -16,6 +16,6 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   return NextResponse.json({
-    data: toPublicContent(item),
+    data: item,
   });
 }

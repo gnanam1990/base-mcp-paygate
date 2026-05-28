@@ -1,8 +1,13 @@
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import CreatorWorkspace from "./creator-workspace";
+import { listCreatorReports } from "@/lib/paygate-store";
+
+export const dynamic = "force-dynamic";
 
 export default function CreatorPage() {
+  const initialReports = listCreatorReports();
+
   return (
     <main className="creator-shell">
       <header className="reader-header">
@@ -15,7 +20,7 @@ export default function CreatorPage() {
           Base Account
         </button>
       </header>
-      <CreatorWorkspace />
+      <CreatorWorkspace initialReports={initialReports} />
     </main>
   );
 }

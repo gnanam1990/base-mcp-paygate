@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
-import {
-  creatorStats,
-  findContentBySlug,
-  publicContentItems,
-  toPublicContent,
-} from "@/lib/paygate-data";
+import { findContentBySlug, getCreatorStats, listPublishedContent } from "@/lib/paygate-store";
 
 const tools = [
   {
@@ -72,7 +67,7 @@ export async function POST(request: Request) {
   switch (body.tool) {
     case "search_paygate_content": {
       const query = body.arguments?.query?.toLowerCase() ?? "";
-      const results = publicContentItems().filter((item) =>
+      const results = listPublishedContent().filter((item) =>
         [item.title, item.creator, item.category, item.preview].some((value) =>
           value.toLowerCase().includes(query),
         ),
@@ -85,7 +80,7 @@ export async function POST(request: Request) {
       if (!item) {
         return NextResponse.json({ error: "content_not_found" }, { status: 404 });
       }
-      return NextResponse.json({ data: toPublicContent(item) });
+      return NextResponse.json({ data: item });
     }
     case "get_paygate_purchase_url": {
       const slug = body.arguments?.slug;
@@ -106,7 +101,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         data: {
           address: body.arguments?.address ?? "0xPayGateCreator",
-          ...creatorStats,
+          ...getCreatorStats(body.arguments?.address),
         },
       });
     default:

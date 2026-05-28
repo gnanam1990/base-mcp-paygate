@@ -14,6 +14,19 @@ export type ContentItem = {
   revenueUsdc: number;
 };
 
+export type ContentStatus = "Draft" | "Published";
+
+export type CreatorReport = {
+  id: string;
+  title: string;
+  category: string;
+  priceUsdc: number;
+  preview: string;
+  fullContent: string;
+  status: ContentStatus;
+  unlocks: number;
+};
+
 export const contentItems: ContentItem[] = [
   {
     slug: "base-agent-commerce-map",

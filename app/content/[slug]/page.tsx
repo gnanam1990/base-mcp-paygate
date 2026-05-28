@@ -10,13 +10,16 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import UnlockPanel from "./unlock-panel";
-import { findContentBySlug, formatCurrency } from "@/lib/paygate-data";
+import { formatCurrency } from "@/lib/paygate-data";
+import { findContentBySlug } from "@/lib/paygate-store";
 
 type ContentPageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
+
+export const dynamic = "force-dynamic";
 
 export default async function ContentPage({ params }: ContentPageProps) {
   const { slug } = await params;

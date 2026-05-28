@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { creatorStats } from "@/lib/paygate-data";
+import { getCreatorStats } from "@/lib/paygate-store";
 
 type RouteContext = {
   params: Promise<{
@@ -13,7 +13,7 @@ export async function GET(_request: Request, context: RouteContext) {
   return NextResponse.json({
     data: {
       address,
-      ...creatorStats,
+      ...getCreatorStats(address),
     },
   });
 }

@@ -9,43 +9,7 @@ import {
   Send,
 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
-import { contentItems, formatCurrency } from "@/lib/paygate-data";
-
-type ReportStatus = "Draft" | "Published";
-
-type CreatorReport = {
-  id: string;
-  title: string;
-  category: string;
-  priceUsdc: number;
-  preview: string;
-  fullContent: string;
-  status: ReportStatus;
-  unlocks: number;
-};
-
-const initialReports: CreatorReport[] = [
-  ...contentItems.map((item) => ({
-    id: item.slug,
-    title: item.title,
-    category: item.category,
-    priceUsdc: item.priceUsdc,
-    preview: item.preview,
-    fullContent: item.fullContent,
-    status: "Published" as ReportStatus,
-    unlocks: item.paidUnlocks,
-  })),
-  {
-    id: "draft-agent-checkout",
-    title: "Agent Checkout UX Notes",
-    category: "UX",
-    priceUsdc: 0.07,
-    preview: "Patterns for making AI-agent purchase review clear before any Base approval.",
-    fullContent: "Premium notes will include payment cap defaults, receipt copy, and failure states.",
-    status: "Draft",
-    unlocks: 0,
-  },
-];
+import { formatCurrency, type CreatorReport } from "@/lib/paygate-data";
 
 const emptyForm = {
   title: "",
@@ -55,11 +19,12 @@ const emptyForm = {
   fullContent: "",
 };
 
-export default function CreatorWorkspace() {
+export default function CreatorWorkspace({ initialReports }: { initialReports: CreatorReport[] }) {
   const [reports, setReports] = useState(initialReports);
   const [form, setForm] = useState(emptyForm);
   const [selectedId, setSelectedId] = useState(initialReports[0].id);
   const [notice, setNotice] = useState("Ready");
+  const [busy, setBusy] = useState(false);
 
   const selectedReport = reports.find((report) => report.id === selectedId) ?? reports[0];
   const totals = useMemo(
@@ -75,34 +40,61 @@ export default function CreatorWorkspace() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  function saveDraft(event: FormEvent<HTMLFormElement>) {
+  async function saveDraft(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setBusy(true);
 
     const price = Number.parseFloat(form.priceUsdc);
-    const draft: CreatorReport = {
-      id: `draft-${Date.now()}`,
-      title: form.title.trim() || "Untitled PayGate report",
-      category: form.category.trim() || "Research",
-      priceUsdc: Number.isFinite(price) ? price : 0.1,
-      preview: form.preview.trim() || "Draft preview pending.",
-      fullContent: form.fullContent.trim() || "Draft premium content pending.",
-      status: "Draft",
-      unlocks: 0,
-    };
+    const response = await fetch("/api/paygate/content", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: form.title.trim() || "Untitled PayGate report",
+        category: form.category.trim() || "Research",
+        priceUsdc: Number.isFinite(price) ? price : 0.1,
+        preview: form.preview.trim() || "Draft preview pending.",
+        fullContent: form.fullContent.trim() || "Draft premium content pending.",
+      }),
+    });
 
-    setReports((current) => [draft, ...current]);
-    setSelectedId(draft.id);
+    if (!response.ok) {
+      setBusy(false);
+      setNotice("Draft save failed");
+      return;
+    }
+
+    const payload = (await response.json()) as { data: CreatorReport };
+    setReports((current) => [payload.data, ...current]);
+    setSelectedId(payload.data.id);
     setForm(emptyForm);
-    setNotice("Draft saved");
+    setNotice("Draft saved to storage");
+    setBusy(false);
   }
 
-  function publishSelected() {
+  async function publishSelected() {
+    setBusy(true);
+    const response = await fetch(`/api/paygate/content/${selectedReport.id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ status: "Published" }),
+    });
+
+    if (!response.ok) {
+      setBusy(false);
+      setNotice("Publish failed");
+      return;
+    }
+
+    const payload = (await response.json()) as { data: CreatorReport };
     setReports((current) =>
-      current.map((report) =>
-        report.id === selectedReport.id ? { ...report, status: "Published" } : report,
-      ),
+      current.map((report) => (report.id === payload.data.id ? payload.data : report)),
     );
-    setNotice("Report published");
+    setNotice("Report published to storage");
+    setBusy(false);
   }
 
   return (
@@ -132,9 +124,9 @@ export default function CreatorWorkspace() {
               <p className="eyebrow">New report</p>
               <h2>Draft premium content</h2>
             </div>
-            <button className="primary-action" type="submit">
+            <button className="primary-action" disabled={busy} type="submit">
               <FileText size={17} />
-              Save draft
+              {busy ? "Saving" : "Save draft"}
             </button>
           </div>
 
@@ -195,7 +187,7 @@ export default function CreatorWorkspace() {
             </div>
             <button
               className="wallet-button"
-              disabled={selectedReport.status === "Published"}
+              disabled={busy || selectedReport.status === "Published"}
               onClick={publishSelected}
               type="button"
             >

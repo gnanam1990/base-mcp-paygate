@@ -14,17 +14,25 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import {
-  contentItems,
-  creatorStats,
-  featuredContent,
   formatCurrency,
   formatNumber,
-  recentActivity,
 } from "@/lib/paygate-data";
+import { getCreatorStats, getRecentActivity, listPublishedContent } from "@/lib/paygate-store";
 
 const navItems = ["Dashboard", "Content", "Payments", "MCP", "Docs"];
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
+  const contentItems = listPublishedContent();
+  const featuredContent = contentItems[0];
+  const creatorStats = getCreatorStats();
+  const recentActivity = getRecentActivity();
+
+  if (!featuredContent) {
+    return null;
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
