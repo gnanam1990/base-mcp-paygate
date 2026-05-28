@@ -44,6 +44,13 @@ Open `http://127.0.0.1:3000`.
 
 The paid full-content endpoint returns a 402 response until a demo payment header is sent. Real x402 facilitator verification is the next payment milestone.
 
+## Checks
+```bash
+npm run typecheck
+npm run build
+PAYGATE_BASE_URL=http://127.0.0.1:3000 npm run test:smoke
+```
+
 ## Current UI Routes
 - `/` creator operations dashboard and content inventory.
 - `/creator` draft, inventory, and publish workspace.
