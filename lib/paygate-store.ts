@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 import { contentItems, type ContentItem, type ContentStatus, type CreatorReport } from "./paygate-data";
 
 export type PayGateContent = ContentItem & {
@@ -60,7 +61,12 @@ const seedDraft: PayGateContent = {
 };
 
 function dbPath() {
-  return process.env.PAYGATE_DATA_FILE || ".data/paygate-db.json";
+  if (process.env.PAYGATE_DATA_FILE) {
+    return process.env.PAYGATE_DATA_FILE;
+  }
+  return process.env.VERCEL
+    ? path.join("/tmp", "paygate-db.json")
+    : path.join(/*turbopackIgnore: true*/ process.cwd(), ".data", "paygate-db.json");
 }
 
 function seedDb(): PayGateDb {
@@ -83,7 +89,7 @@ function readDb(): PayGateDb {
   const file = dbPath();
   if (!fs.existsSync(file)) {
     const initial = seedDb();
-    fs.mkdirSync(file.slice(0, file.lastIndexOf("/")) || ".", { recursive: true });
+    fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, JSON.stringify(initial, null, 2));
     return initial;
   }
@@ -93,7 +99,7 @@ function readDb(): PayGateDb {
 
 function writeDb(db: PayGateDb) {
   const file = dbPath();
-  fs.mkdirSync(file.slice(0, file.lastIndexOf("/")) || ".", { recursive: true });
+  fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, JSON.stringify(db, null, 2));
 }
 
