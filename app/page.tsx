@@ -88,7 +88,7 @@ export default function Home() {
 
           <div className="status-strip">
             <span>
-              <ShieldCheck size={18} /> Base Sepolia
+              <ShieldCheck size={18} /> Base mainnet
             </span>
             <span>
               <CheckCircle2 size={18} /> x402 ready

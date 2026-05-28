@@ -45,7 +45,7 @@ async function main() {
 
   const locked = await readJson(`/api/paygate/content/${slug}/full`);
   assert(locked.response.status === 402, "full content should require payment");
-  assert(locked.body.accepts[0].network === "eip155:84532", "payment challenge should target Base Sepolia");
+  assert(locked.body.accepts[0].network === "eip155:8453", "payment challenge should target Base mainnet");
 
   const unlocked = await readJson(`/api/paygate/content/${slug}/full`, {
     headers: {

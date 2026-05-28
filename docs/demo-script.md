@@ -12,7 +12,7 @@ Show a complete, user-approved Base MCP/x402 workflow for PayGate.
 
 ## Required Prep
 - Use a funded Base Account test wallet.
-- Verify Base Sepolia before any Base mainnet action.
+- Verify Base mainnet before any Base mainnet action.
 - Keep payment amounts small for public demos.
 - Record the transaction or receipt links used in the demo.
 

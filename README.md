@@ -21,7 +21,7 @@ Base MCP gives AI assistants access to Base Account actions such as balances, se
 2. Implement creator publish/edit flow with draft and published states.
 3. Add x402-protected full content endpoint and paid reader unlock flow.
 4. Build PayGate MCP plugin spec and tool handlers for search, preview, and paid access.
-5. Ship analytics dashboard, demo content, docs, Sepolia test, and Base mainnet launch.
+5. Ship analytics dashboard, demo content, docs, Base mainnet verification, and Base mainnet launch.
 
 ## Repository Status
 This repository is public from day one. It now includes a usable Next.js foundation: dashboard UI, creator publishing console, durable local storage, reader paywall flow, x402 facilitator-ready content endpoints, receipt logging, and a PayGate MCP tool endpoint.

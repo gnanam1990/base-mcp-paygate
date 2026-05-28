@@ -93,7 +93,7 @@ export async function POST(request: Request) {
           slug: item.slug,
           priceUsdc: item.priceUsdc,
           resource: `/api/paygate/content/${item.slug}/full`,
-          network: "base-sepolia",
+          network: process.env.PAYGATE_X402_NETWORK || "eip155:8453",
         },
       });
     }

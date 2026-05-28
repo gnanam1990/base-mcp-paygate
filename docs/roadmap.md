@@ -3,7 +3,7 @@
 ## Milestones
 ### 1. Scaffold Next.js frontend, API service, database schema, and shared UI shell.
 - Deliverable: a working, testable slice that can be committed and reviewed independently.
-- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
+- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base mainnet with demo limits before production scale.
 
 ### 2. Implement creator publish/edit flow with draft and published states.
 - Deliverable: persisted creator console with draft creation, inventory inspection, and publish-state transitions.
@@ -15,11 +15,11 @@
 
 ### 4. Build PayGate MCP plugin spec and tool handlers for search, preview, and paid access.
 - Deliverable: a working, testable slice that can be committed and reviewed independently.
-- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
+- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base mainnet with demo limits before production scale.
 
-### 5. Ship analytics dashboard, demo content, docs, Sepolia test, and Base mainnet launch.
+### 5. Ship analytics dashboard, demo content, docs, Base mainnet verification, and Base mainnet launch.
 - Deliverable: a working, testable slice that can be committed and reviewed independently.
-- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
+- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base mainnet with demo limits before production scale.
 
 ## Commit Standard
 - `feat:` user-facing behavior.

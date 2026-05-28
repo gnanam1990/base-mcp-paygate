@@ -7,7 +7,7 @@ PayGate lets creators publish premium reports or articles behind x402. Human use
 - Frontend app: Next.js App Router, TypeScript, responsive CSS, and lucide icons.
 - API layer: Node/TypeScript endpoints for product reads, prepare flows, analytics, and x402-gated access.
 - Base layer: Base Account for user approval and Base MCP for assistant-driven actions.
-- Payment layer: x402 for paid API/content/service access using USDC on Base or Base Sepolia.
+- Payment layer: x402 for paid API/content/service access using USDC on Base or Base mainnet.
 - Data layer: PostgreSQL for durable product state and Redis for cache/session/rate-limit workloads.
 - Contracts: Solidity/Foundry only where the module needs onchain state or settlement logic.
 
@@ -52,7 +52,7 @@ For paid resources, endpoints should return an x402 payment requirement before s
 - Facilitator mode calls `/verify` and `/settle`, then emits a `payment-response` header and persists receipt metadata.
 
 ## Safety Defaults
-- Base Sepolia first, then Base mainnet.
+- Base mainnet by default; use Base mainnet only for rehearsals.
 - No private keys in app config.
 - No hidden approvals or auto-execution.
 - Clear user review before paid access or onchain writes.

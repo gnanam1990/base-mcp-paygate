@@ -29,12 +29,12 @@ type PaymentVerification =
 export function paymentRequirement(item: PayGateContent, resourceUrl: string): PaymentRequirement {
   return {
     scheme: "exact",
-    network: process.env.PAYGATE_X402_NETWORK || "eip155:84532",
+    network: process.env.PAYGATE_X402_NETWORK || "eip155:8453",
     asset: "USDC",
     amount: item.priceUsdc.toFixed(2),
     payTo: process.env.X402_RECEIVING_ADDRESS || item.creatorAddress,
     resource: resourceUrl,
-    description: `Unlock ${item.title} for ${item.priceUsdc.toFixed(2)} USDC on Base Sepolia.`,
+    description: `Unlock ${item.title} for ${item.priceUsdc.toFixed(2)} USDC on Base mainnet.`,
   };
 }
 
