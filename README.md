@@ -1,0 +1,30 @@
+# PayGate
+
+x402 content paywalls for creators and AI agents.
+
+**Status:** Planned first flagship build.
+
+PayGate lets creators publish premium reports or articles behind x402. Human users and AI agents can preview content, pay in USDC on Base, unlock the full piece, and receive a verifiable access receipt.
+
+## Why It Exists
+Base MCP gives AI assistants access to Base Account actions such as balances, sends, swaps, contract calls, and x402 payments, with user approval for writes. This project turns that capability into a focused product for writers, researchers, analysts, AI agents, and readers who want pay-per-piece premium content.
+
+## Core Capabilities
+- Creator dashboard for publishing, pricing, revenue, and access logs.
+- Reader experience with preview, payment-required unlock, and receipt display.
+- x402-gated content API for paid full-text access.
+- MCP tools for search, preview, purchase initiation, and creator analytics.
+- Base Account approval flow for paid requests and future creator actions.
+
+## Roadmap Snapshot
+1. Scaffold Next.js frontend, API service, database schema, and shared UI shell.
+2. Implement creator publish/edit flow with draft and published states.
+3. Add x402-protected full content endpoint and paid reader unlock flow.
+4. Build PayGate MCP plugin spec and tool handlers for search, preview, and paid access.
+5. Ship analytics dashboard, demo content, docs, Sepolia test, and Base mainnet launch.
+
+## Repository Status
+This repository is public from day one. It starts with product, architecture, roadmap, and demo documentation. Implementation commits should stay small and use conventional commit prefixes.
+
+## License
+MIT
