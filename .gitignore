@@ -34,7 +34,7 @@ venv/
 cache/
 out/
 broadcast/
-lib/
+contracts/lib/
 
 # OS / editors
 .DS_Store
