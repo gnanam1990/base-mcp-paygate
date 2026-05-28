@@ -6,6 +6,7 @@ import {
   CircleDollarSign,
   FileText,
   LockKeyhole,
+  PenLine,
   ReceiptText,
   Search,
   ShieldCheck,
@@ -85,6 +86,11 @@ export default function Home() {
               <CheckCircle2 size={18} /> x402 ready
             </span>
           </div>
+
+          <Link className="primary-action full-width" href="/creator">
+            <PenLine size={17} />
+            Creator console
+          </Link>
 
           <div className="activity-list">
             <div className="section-title">

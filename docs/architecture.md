@@ -30,6 +30,9 @@ Every write action should be exposed as a prepare endpoint that returns unsigned
 For paid resources, endpoints should return an x402 payment requirement before serving premium data. The app must enforce a user-defined max payment cap and record receipts for analytics and support.
 
 ## Current Foundation
+- `/` renders the creator operations dashboard and premium content inventory.
+- `/creator` supports local draft creation, inventory inspection, and publish-state transitions.
+- `/content/:slug` renders the reader preview and demo unlock flow.
 - `GET /api/paygate/content` returns public content inventory.
 - `GET /api/paygate/content/:slug/preview` returns one free preview.
 - `GET /api/paygate/content/:slug/full` returns a 402 challenge without payment headers and demo premium content with `x-demo-payment: accepted`.

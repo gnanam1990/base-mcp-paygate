@@ -6,8 +6,8 @@
 - Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
 
 ### 2. Implement creator publish/edit flow with draft and published states.
-- Deliverable: a working, testable slice that can be committed and reviewed independently.
-- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
+- Deliverable: local creator console with draft creation, inventory inspection, and publish-state transitions.
+- Acceptance: browser flow creates a draft, updates draft count, publishes the selected report, and disables duplicate publish.
 
 ### 3. Add x402-protected full content endpoint and paid reader unlock flow.
 - Deliverable: a working, testable slice that can be committed and reviewed independently.
