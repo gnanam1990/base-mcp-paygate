@@ -31,13 +31,25 @@ For paid resources, endpoints should return an x402 payment requirement before s
 
 ## Current Foundation
 - `/` renders the creator operations dashboard and premium content inventory.
-- `/creator` supports local draft creation, inventory inspection, and publish-state transitions.
+- `/creator` supports persisted draft creation, inventory inspection, and publish-state transitions.
 - `/content/:slug` renders the reader preview and demo unlock flow.
 - `GET /api/paygate/content` returns public content inventory.
+- `POST /api/paygate/content` creates a persisted draft.
+- `PATCH /api/paygate/content/:slug` publishes a persisted draft.
 - `GET /api/paygate/content/:slug/preview` returns one free preview.
-- `GET /api/paygate/content/:slug/full` returns a 402 challenge without payment headers and demo premium content with `x-demo-payment: accepted`.
+- `GET /api/paygate/content/:slug/full` returns a 402 challenge without payment headers, verifies `x-payment` with a facilitator when configured, and records receipts on successful unlock.
 - `GET /api/mcp/paygate` returns the current PayGate MCP tool list.
 - `POST /api/mcp/paygate` handles search, preview, purchase URL, and creator stats tool calls.
+
+## Persistence
+- Default local data file: `.data/paygate-db.json`.
+- `PAYGATE_DATA_FILE` can point the app at another writable JSON store.
+- Seed content is copied into storage on first run, then API mutations update storage.
+
+## x402 Verification
+- Local development can use `PAYGATE_PAYMENT_MODE=demo` with `x-demo-payment: accepted`.
+- Strict mode requires an `x-payment` header and `X402_FACILITATOR_URL`.
+- Facilitator mode calls `/verify` and `/settle`, then emits a `payment-response` header and persists receipt metadata.
 
 ## Safety Defaults
 - Base Sepolia first, then Base mainnet.

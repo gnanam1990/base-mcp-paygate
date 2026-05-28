@@ -24,6 +24,6 @@
 ```
 
 ## Payment Pattern
-The full-content endpoint returns `402` without a payment header. In the current demo build, `x-demo-payment: accepted` unlocks premium content so the product flow can be tested before facilitator verification is wired in.
+The full-content endpoint returns `402` without a payment header. In local demo mode, `x-demo-payment: accepted` unlocks premium content so the product flow can be tested.
 
-Production x402 integration must replace the demo header with facilitator-backed payment verification and receipt persistence.
+Strict deployments should set `PAYGATE_PAYMENT_MODE=strict` and `X402_FACILITATOR_URL`; submitted `x-payment` payloads are sent to facilitator `/verify` and `/settle`, then the receipt is persisted.

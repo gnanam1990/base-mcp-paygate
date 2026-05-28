@@ -24,7 +24,7 @@ Base MCP gives AI assistants access to Base Account actions such as balances, se
 5. Ship analytics dashboard, demo content, docs, Sepolia test, and Base mainnet launch.
 
 ## Repository Status
-This repository is public from day one. It now includes the first usable Next.js foundation: dashboard UI, creator publishing console, reader paywall flow, x402-shaped content endpoints, and a PayGate MCP tool endpoint.
+This repository is public from day one. It now includes a usable Next.js foundation: dashboard UI, creator publishing console, durable local storage, reader paywall flow, x402 facilitator-ready content endpoints, receipt logging, and a PayGate MCP tool endpoint.
 
 ## Local Development
 ```bash
@@ -42,7 +42,13 @@ Open `http://127.0.0.1:3000`.
 - `GET /api/mcp/paygate`
 - `POST /api/mcp/paygate`
 
-The paid full-content endpoint returns a 402 response until a demo payment header is sent. Real x402 facilitator verification is the next payment milestone.
+The paid full-content endpoint returns a 402 response until a payment header is sent. Local development accepts `x-demo-payment: accepted` while `PAYGATE_PAYMENT_MODE` is `demo`; strict deployments should set `PAYGATE_PAYMENT_MODE=strict` and `X402_FACILITATOR_URL`.
+
+## Persistence And Payments
+- Durable local state is stored at `.data/paygate-db.json` by default.
+- Set `PAYGATE_DATA_FILE` to move storage elsewhere.
+- Submitted `x-payment` payloads are verified and settled through `X402_FACILITATOR_URL` when configured.
+- Successful unlocks append receipt records and update creator stats.
 
 ## Checks
 ```bash

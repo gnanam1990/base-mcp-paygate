@@ -6,12 +6,12 @@
 - Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
 
 ### 2. Implement creator publish/edit flow with draft and published states.
-- Deliverable: local creator console with draft creation, inventory inspection, and publish-state transitions.
-- Acceptance: browser flow creates a draft, updates draft count, publishes the selected report, and disables duplicate publish.
+- Deliverable: persisted creator console with draft creation, inventory inspection, and publish-state transitions.
+- Acceptance: browser flow creates a draft through the API, updates draft count, publishes the selected report, and disables duplicate publish.
 
 ### 3. Add x402-protected full content endpoint and paid reader unlock flow.
-- Deliverable: a working, testable slice that can be committed and reviewed independently.
-- Acceptance: docs updated, local checks pass, and any onchain or x402 behavior verified on Base Sepolia before mainnet.
+- Deliverable: 402 challenge, facilitator-ready `x-payment` verification, demo-mode local unlock, and persisted receipt logging.
+- Acceptance: unpaid requests return 402, paid/demo requests return content plus receipt, stats update after unlock, and smoke checks cover the flow.
 
 ### 4. Build PayGate MCP plugin spec and tool handlers for search, preview, and paid access.
 - Deliverable: a working, testable slice that can be committed and reviewed independently.
