@@ -143,10 +143,31 @@ async function callFacilitator(url: string, body: unknown) {
     });
     const text = await response.text();
     const json = text ? (JSON.parse(text) as Record<string, unknown>) : {};
-    const ok = response.ok && json.valid !== false && json.success !== false && !json.error;
-    return ok
-      ? { ok: true as const, body: json }
-      : { ok: false as const, reason: String(json.error || json.reason || response.statusText) };
+    // x402 facilitators answer with HTTP 200 even when REJECTING a payment, so the
+    // status code alone is not sufficient. /verify replies { isValid, invalidReason }
+    // and /settle replies { success, errorReason }. Fail closed: a payment is only
+    // accepted when no rejection signal is present in any of the known fields.
+    const rejected =
+      !response.ok ||
+      json.isValid === false ||
+      json.valid === false ||
+      json.success === false ||
+      json.invalidReason != null ||
+      json.errorReason != null ||
+      json.error != null;
+    return rejected
+      ? {
+          ok: false as const,
+          reason: String(
+            json.invalidReason ||
+              json.errorReason ||
+              json.error ||
+              json.reason ||
+              response.statusText ||
+              "facilitator_rejected",
+          ),
+        }
+      : { ok: true as const, body: json };
   } catch (error) {
     return {
       ok: false as const,

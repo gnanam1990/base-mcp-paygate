@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findContentBySlug } from "@/lib/paygate-store";
+import { findPublicContentBySlug } from "@/lib/paygate-store";
 
 type RouteContext = {
   params: Promise<{
@@ -9,7 +9,7 @@ type RouteContext = {
 
 export async function GET(_request: Request, context: RouteContext) {
   const { slug } = await context.params;
-  const item = findContentBySlug(slug);
+  const item = findPublicContentBySlug(slug);
 
   if (!item) {
     return NextResponse.json({ error: "content_not_found" }, { status: 404 });

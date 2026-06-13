@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findContentBySlug, getCreatorStats, listPublishedContent } from "@/lib/paygate-store";
+import { findContentBySlug, findPublicContentBySlug, getCreatorStats, listPublishedContent } from "@/lib/paygate-store";
 
 const tools = [
   {
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     }
     case "get_paygate_preview": {
       const slug = body.arguments?.slug;
-      const item = slug ? findContentBySlug(slug) : undefined;
+      const item = slug ? findPublicContentBySlug(slug) : undefined;
       if (!item) {
         return NextResponse.json({ error: "content_not_found" }, { status: 404 });
       }

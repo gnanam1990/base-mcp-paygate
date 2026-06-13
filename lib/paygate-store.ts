@@ -167,6 +167,11 @@ export function findContentBySlug(slug: string) {
   return readDb().contents.find((item) => item.slug === slug && item.status === "Published");
 }
 
+export function findPublicContentBySlug(slug: string) {
+  const item = findContentBySlug(slug);
+  return item ? toPublicContent(item) : undefined;
+}
+
 export function findAnyContentBySlug(slug: string) {
   return readDb().contents.find((item) => item.slug === slug);
 }
